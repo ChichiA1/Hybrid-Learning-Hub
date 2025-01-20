@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime, timedelta
 
-from app.models import (admins, books, users)
+from app.models import (admin, book, user)
 
 
 class Library:
