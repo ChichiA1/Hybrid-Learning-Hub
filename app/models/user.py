@@ -7,11 +7,12 @@ class UserModel(BaseModel):
     user_id: str
     full_name: str
     email: EmailStr
-    phone: str #constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # Phone number in format XXX-XXX-XXXX
+    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # Phone number in format XXX-XXX-XXXX
     address: str
     user_type: str
     dob: datetime
     membership_status: str = "Active"
+    borrowed_books_history: List[str] = []  # To keep track of books a user has borrowed
 
     # Adding a custom validator for membership status
     @validator("membership_status")
