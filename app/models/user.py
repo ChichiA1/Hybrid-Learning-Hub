@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, constr, validator
+from typing import List
 
 
 # Pydantic Model for User

@@ -11,7 +11,7 @@ class Library:
         self.users = {}  # A dictionary to hold users for authentication
         self.admins = {}  # A dictionary to hold admins for authentication
 
-    def add_book(self, book: books.BookModel):
+    def add_book(self, book: book.BookModel):
         if book.book_id in self.books:
             self.books[book.book_id].quantity += book.quantity
         else:
@@ -160,8 +160,8 @@ class Library:
             print(f"Admin ID '{admin_id}' already exists.")
         else:
             try:
-                admin = admins.AdminModel(admin_id=admin_id, full_name=full_name, email=email, phone=phone, password=password)
-                self.admins[admin_id] = admin
+                admin1 = admin.AdminModel(admin_id=admin_id, full_name=full_name, email=email, phone=phone, password=password)
+                self.admins[admin_id] = admin1
                 print(f"Admin '{full_name}' with ID '{admin_id}' added successfully!")
             except ValueError as e:
                 print(f"Error adding admin: {e}")
