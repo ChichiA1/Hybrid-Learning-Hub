@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime, timedelta
-
-from app.models import (admin, book, user)
+import random
+from app.models import (admins, books, users)
 
 
 class Library:
@@ -11,7 +11,7 @@ class Library:
         self.users = {}  # A dictionary to hold users for authentication
         self.admins = {}  # A dictionary to hold admins for authentication
 
-    def add_book(self, book: book.BookModel):
+    def add_book(self, book: books.BookModel):
         if book.book_id in self.books:
             self.books[book.book_id].quantity += book.quantity
         else:
@@ -78,10 +78,12 @@ class Library:
             print("No books found matching the search criteria.")
 
     def register_user(self):
-        user_id = input("Enter your user ID: ")
-        if user_id in self.users:
-            print(f"User '{user_id}' is already registered.")
-            return
+        now = str(datetime.now())
+        rand_num = random.sample(range(100000, 999999), 1)  # Random sample of 5 numbers from 1 to 10
+        user_id = f"{now.split()[0]}-{rand_num[0]}"
+        # if user_id in self.users:
+        #     print(f"User '{user_id}' is already registered.")
+        #     return
 
         full_name = input("Enter full name: ")
         email = input("Enter email address: ")
@@ -160,8 +162,8 @@ class Library:
             print(f"Admin ID '{admin_id}' already exists.")
         else:
             try:
-                admin1 = admin.AdminModel(admin_id=admin_id, full_name=full_name, email=email, phone=phone, password=password)
-                self.admins[admin_id] = admin1
+                admin = admins.AdminModel(admin_id=admin_id, full_name=full_name, email=email, phone=phone, password=password)
+                self.admins[admin_id] = admin
                 print(f"Admin '{full_name}' with ID '{admin_id}' added successfully!")
             except ValueError as e:
                 print(f"Error adding admin: {e}")

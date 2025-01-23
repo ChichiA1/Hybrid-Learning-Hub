@@ -1,16 +1,20 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, constr, validator
 from typing import List
+from enum import Enum
 
+class User_type(str, Enum):
+    student = "Student"
+    faculty = "Faculty"
+    staff = "Staff"
 
-# Pydantic Model for User
 class UserModel(BaseModel):
     user_id: str
     full_name: str
     email: EmailStr
     phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # Phone number in format XXX-XXX-XXXX
     address: str
-    user_type: str
+    user_type: User_type
     dob: datetime
     membership_status: str = "Active"
     borrowed_books_history: List[str] = []  # To keep track of books a user has borrowed
