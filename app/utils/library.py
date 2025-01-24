@@ -79,18 +79,24 @@ class Library:
 
     def register_user(self):
         now = str(datetime.now())
-        rand_num = random.sample(range(100000, 999999), 1)  # Random sample of 5 numbers from 1 to 10
-        user_id = f"{now.split()[0]}-{rand_num[0]}"
+        rand_num = random.sample(range(100000, 999999), 1)
+        user_id = f"{now.split()[0]}-{rand_num[0]}" # format -> user_ld = 2025-01-22-12345
         # if user_id in self.users:
         #     print(f"User '{user_id}' is already registered.")
         #     return
 
         full_name = input("Enter full name: ")
         email = input("Enter email address: ")
+        password = input("Enter you password: ")
+        confirm_password = input("Confirm you password: ")
         phone = input("Enter phone number (XXX-XXX-XXXX): ")
         address = input("Enter your address: ")
-        user_type = input("Enter user type (Student, Faculty, Staff, etc.): ")
+        user_type = input("Enter user type (Student, Admin, Staff, Parent): ")
         dob = input("Enter your date of birth (YYYY-MM-DD): ")
+
+        if password != confirm_password:
+            print("Password does not match")
+            return
 
         # Convert date of birth to datetime object
         try:
@@ -107,6 +113,7 @@ class Library:
                 user_id=user_id,
                 full_name=full_name,
                 email=email,
+                password=password,
                 phone=phone,
                 address=address,
                 user_type=user_type,
