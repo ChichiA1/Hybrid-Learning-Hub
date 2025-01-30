@@ -2,7 +2,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 import random
 from app.models import (admins, books, users)
-
+from pprint import pprint
 
 class Library:
     def __init__(self):
@@ -87,7 +87,8 @@ class Library:
 
         full_name = input("Enter full name: ")
         email = input("Enter email address: ")
-        password = input("Enter you password: ")
+        username = input("Enter your username: ")
+        password = input("Enter your password: ")
         confirm_password = input("Confirm you password: ")
         phone = input("Enter phone number (XXX-XXX-XXXX): ")
         address = input("Enter your address: ")
@@ -97,6 +98,11 @@ class Library:
         if password != confirm_password:
             print("Password does not match")
             return
+
+        for i in self.users.values():
+            if i["email"] == email or i["username"] == username:
+                print("Email or Username already exist")
+                return
 
         # Convert date of birth to datetime object
         try:
@@ -113,6 +119,7 @@ class Library:
                 user_id=user_id,
                 full_name=full_name,
                 email=email,
+                username=username,
                 password=password,
                 phone=phone,
                 address=address,
@@ -120,7 +127,8 @@ class Library:
                 dob=dob,
                 membership_status=membership_status
             )
-            self.users[user_id] = user
+            self.users[user_id] = user.dict()
+            pprint(self.users)
             print(f"User '{full_name}' with ID '{user_id}' registered successfully!")
         except ValueError as e:
             print(f"Error registering user: {e}")

@@ -14,6 +14,7 @@ class UserModel(BaseModel):
     user_id: str
     full_name: str
     email: EmailStr
+    username: constr(max_length = 8)
     password: str
     phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # Phone number in format XXX-XXX-XXXX
     address: str
