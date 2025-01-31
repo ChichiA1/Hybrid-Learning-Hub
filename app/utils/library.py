@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import random
 from app.models import (admins, books, users)
 from pprint import pprint
+from app.utils.util import renewal
 
 class Library:
     def __init__(self):
@@ -111,7 +112,7 @@ class Library:
             print("Invalid date format. Please use YYYY-MM-DD.")
             return
 
-        membership_status = input("Enter membership status (Active/Inactive): ")
+        # membership_status = input("Enter membership status (Active/Inactive): ")
 
         # Use Pydantic to validate the user data
         try:
@@ -125,7 +126,8 @@ class Library:
                 address=address,
                 user_type=user_type,
                 dob=dob,
-                membership_status=membership_status
+                # membership_status=membership_status
+                user_expiration = renewal()
             )
             self.users[user_id] = user.dict()
             pprint(self.users)

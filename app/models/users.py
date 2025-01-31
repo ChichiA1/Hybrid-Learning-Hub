@@ -10,6 +10,10 @@ class User_type(str, Enum):
     staff = "Staff"
     parent = "Parent"
 
+class Membership_status(str, Enum):
+    active = "Active"
+    inactive = "inactive"
+
 class UserModel(BaseModel):
     user_id: str
     full_name: str
@@ -20,15 +24,16 @@ class UserModel(BaseModel):
     address: str
     user_type: User_type
     dob: datetime
-    membership_status: str = "Active"
+    membership_status: Membership_status = Membership_status.active
     borrowed_books_history: List[str] = []  # To keep track of books a user has borrowed
+    user_expiration: datetime
 
     # Adding a custom validator for membership status
-    @validator("membership_status")
-    def check_membership_status(cls, value):
-        if value not in ["Active", "Inactive"]:
-            raise ValueError("Membership status must be 'Active' or 'Inactive'.")
-        return value
+    # @validator("membership_status")
+    # def check_membership_status(cls, value):
+    #     if value not in ["Active", "Inactive"]:
+    #         raise ValueError("Membership status must be 'Active' or 'Inactive'.")
+    #     return value
 
     @validator("password")
     def check_password(cls, value):
