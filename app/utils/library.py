@@ -113,7 +113,7 @@ class Library:
             return
 
         # membership_status = input("Enter membership status (Active/Inactive): ")
-
+        print("password:", password)
         # Use Pydantic to validate the user data
         try:
             user = users.UserModel(
@@ -130,6 +130,7 @@ class Library:
                 user_expiration = renewal()
             )
             self.users[user_id] = user.dict()
+            print(user.dict(),"\n")
             pprint(self.users)
             print(f"User '{full_name}' with ID '{user_id}' registered successfully!")
         except ValueError as e:
@@ -173,6 +174,16 @@ class Library:
         else:
             print("Invalid Admin ID or Password.")
             return None
+
+    def user_login(self, user_info: str, password: str):
+        for value in self.users.values():
+            if (value["email"] == user_info or value["username"] == user_info) and value["password"] == password:
+                print(f"User '{user_info} logged in sucessfully!")
+                return user_info
+        else:
+            print("Invalid email / username or password")
+            return None
+
 
     def add_admin(self, admin_id: str, full_name: str, email: str, phone: str, password: str):
         if admin_id in self.admins:

@@ -62,6 +62,8 @@ class UserModel(BaseModel):
         if exceptions:
             raise ValueError(' \n'.join(exceptions))
 
+        return value
+
 
     class Config:
         orm_mode = True  # This allows Pydantic to work with ORM models, if needed.
