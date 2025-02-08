@@ -16,7 +16,8 @@ class Membership_status(str, Enum):
 
 class UserModel(BaseModel):
     user_id: str
-    full_name: str
+    first_name: str
+    last_name: str
     email: EmailStr
     username: constr(max_length = 8)
     password: str
@@ -25,7 +26,6 @@ class UserModel(BaseModel):
     user_type: User_type
     dob: datetime
     membership_status: Membership_status = Membership_status.active
-    borrowed_books_history: List[str] = []  # To keep track of books a user has borrowed
     user_expiration: datetime
 
     # Adding a custom validator for membership status

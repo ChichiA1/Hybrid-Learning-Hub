@@ -4,6 +4,11 @@ import random
 from app.models import (admins, books, users)
 from pprint import pprint
 from app.utils.util import renewal
+from app.helper.db_connection import write_to_table
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Library:
     def __init__(self):
@@ -81,12 +86,10 @@ class Library:
     def register_user(self):
         now = str(datetime.now())
         rand_num = random.sample(range(100000, 999999), 1)
-        user_id = f"{now.split()[0]}-{rand_num[0]}" # format -> user_ld = 2025-01-22-12345
-        # if user_id in self.users:
-        #     print(f"User '{user_id}' is already registered.")
-        #     return
+        user_id = f"{now.split()[0]}-{rand_num[0]}" # format -> user_ld = 2025-01-22-123456
 
-        full_name = input("Enter full name: ")
+        first_name = input("Enter first name: ")
+        last_name =  input("Enter last name: ")
         email = input("Enter email address: ")
         username = input("Enter your username: ")
         password = input("Enter your password: ")
@@ -112,13 +115,12 @@ class Library:
             print("Invalid date format. Please use YYYY-MM-DD.")
             return
 
-        # membership_status = input("Enter membership status (Active/Inactive): ")
-        print("password:", password)
         # Use Pydantic to validate the user data
         try:
             user = users.UserModel(
                 user_id=user_id,
-                full_name=full_name,
+                first_name=first_name,
+                last_name=last_name,
                 email=email,
                 username=username,
                 password=password,
@@ -130,9 +132,7 @@ class Library:
                 user_expiration = renewal()
             )
             self.users[user_id] = user.dict()
-            print(user.dict(),"\n")
-            pprint(self.users)
-            print(f"User '{full_name}' with ID '{user_id}' registered successfully!")
+            write_to_table(self.users[user_id], "users_tables1", os.getenv("DBNAME"))
         except ValueError as e:
             print(f"Error registering user: {e}")
 
