@@ -4,7 +4,7 @@ import random
 from app.models import (admins, books, users)
 from pprint import pprint
 from app.utils.util import renewal
-from app.helper.db_connection import write_to_table
+from app.helper.db_connection import RDSOperations
 import os
 from dotenv import load_dotenv
 
@@ -132,7 +132,9 @@ class Library:
                 user_expiration = renewal()
             )
             self.users[user_id] = user.dict()
-            write_to_table(self.users[user_id], "users_tables1", os.getenv("DBNAME"))
+            # initialise RDSOperations
+            rds = RDSOperations()
+            rds.write_to_table(self.users[user_id], "users_tables1", os.getenv("DBNAME"))
         except ValueError as e:
             print(f"Error registering user: {e}")
 
