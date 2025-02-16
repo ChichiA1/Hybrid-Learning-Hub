@@ -1,40 +1,29 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, constr, validator
-from typing import List
+from typing import List, Optional
 from enum import Enum
 from string import punctuation
+from app.models.token import AccessToken
 
 class User_type(str, Enum):
-    student = "Student"
-    admin = "Admin"
-    staff = "Staff"
-    parent = "Parent"
+    student = "student"
+    admin = "admin"
+    staff = "staff"
+    parent = "parent"
 
-class Membership_status(str, Enum):
-    active = "Active"
-    inactive = "inactive"
-
+# Pydantic Model for User
 class UserModel(BaseModel):
-    user_id: str
     first_name: str
     last_name: str
     email: EmailStr
-    username: constr(max_length = 8)
+    username:str
     password: str
     phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # Phone number in format XXX-XXX-XXXX
     address: str
     user_type: User_type
     dob: datetime
-    membership_status: Membership_status = Membership_status.active
-    user_expiration: datetime
 
-    # Adding a custom validator for membership status
-    # @validator("membership_status")
-    # def check_membership_status(cls, value):
-    #     if value not in ["Active", "Inactive"]:
-    #         raise ValueError("Membership status must be 'Active' or 'Inactive'.")
-    #     return value
-
+    # Adding a custom validator for password
     @validator("password")
     def check_password(cls, value):
 
@@ -64,11 +53,28 @@ class UserModel(BaseModel):
 
         return value
 
-
     class Config:
         orm_mode = True  # This allows Pydantic to work with ORM models, if needed.
 
     def __str__(self):
-        return f"User ID: {self.user_id}, Name: {self.full_name}, Email: {self.email}, Phone: {self.phone}, " \
+        return f"first_name: {self.first_name}, last_name: {self.last_name}, Email: {self.email}, Phone: {self.phone}, " \
                f"Address: {self.address}, User Type: {self.user_type}, Date of Birth: {self.dob}, " \
-               f"Membership Status: {self.membership_status}"
+
+class Membership_status(str, Enum):
+    active = "active"
+    inactive = "inactive"
+
+class UserRenewal(BaseModel):
+    membership_status: Membership_status = Membership_status.active
+    renewal: datetime
+
+class UserPasswordUpdate(BaseModel):
+    """
+    Users can create or change their password
+    """
+    password: constr(min_length=8, max_length=100)
+    salt: str
+
+class UserPublic(UserModel):
+    user_id: str
+    access_token: Optional[AccessToken] = None
