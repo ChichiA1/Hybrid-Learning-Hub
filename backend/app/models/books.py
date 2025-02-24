@@ -1,7 +1,13 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
 from typing import List, Optional
+from enum import Enum
 
+# Define the Enum for status
+class BookStatus(str, Enum):
+    available = "available"
+    checked_out = "checked-out"
+    reserved = "reserved"
 
 # Pydantic Model for Book
 class BookModel(BaseModel):
@@ -10,17 +16,17 @@ class BookModel(BaseModel):
     book_id: str
     quantity: int
     category: str
-    status: str = "Available"  # Default status is Available
-    due_date: Optional[datetime] = None  # Optional, only for borrowed books
-    reviews: List[str] = []
-    reserved_by: List[str] = []  # Users who have reserved this book
+    status: BookStatus = BookStatus.available  # Default status is Available
+    # due_date: Optional[datetime] = None  # Optional, only for borrowed books
+    # reviews: List[str] = []
+    # reserved_by: List[str] = []  # Users who have reserved this book
 
     # Adding a custom validator for book status
-    @validator("status")
-    def check_status(cls, value):
-        if value not in ["Available", "Checked-out"]:
-            raise ValueError("Status must be 'Available' or 'Checked-out'.")
-        return value
+    # @validator("status")
+    # def check_status(cls, value):
+    #     if value not in ["Available", "Checked-out"]:
+    #         raise ValueError("Status must be 'Available' or 'Checked-out'.")
+    #     return value
 
     class Config:
         orm_mode = True

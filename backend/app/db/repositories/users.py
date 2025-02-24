@@ -1,10 +1,10 @@
-from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.orm_model.user import User
 from app.models.users import UserModel, Membership_status
 from app.services.authentication import auth_service
 from sqlalchemy.exc import SQLAlchemyError
 from app.utils.util import renewal, id_generator
+from app.api.dependencies.database import add_update_table
 import logging
 
 # Setting up logging
@@ -41,16 +41,9 @@ class UsersRepository:
             # This stages db_user object to be added to the database, not asynchronous, local opertation that happens
             # in memory
             db.add(db_user)
-            await db.commit()  # Commit the transaction
-            # Refresh the object to get the latest state from the database
-            await db.refresh(db_user)
+            db_user = await add_update_table(db, db_user)
             return db_user.to_dict()
-        except SQLAlchemyError as e:
-            # If an error occurs during user creation, log and handle the exception
-            await db.rollback()
+        except (SQLAlchemyError, Exception) as e:
+            # Handle any SQLAlchemy-related or unexpected errors
             logger.error(f"Error creating user in the database: {e}")
             raise  # Re-raise the exception so the caller knows something went wrong
-        except Exception as e:
-            # Catch any unexpected errors
-            logger.error(f"Unexpected error while creating user: {e}")
-            raise  # Re-raise to propagate the error

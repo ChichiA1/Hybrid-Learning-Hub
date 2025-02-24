@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, timedelta
 # Function to check if a year is a leap year
 def is_leap_year(year):
@@ -17,3 +18,9 @@ def renewal():
         current_date += timedelta(days=365)
 
     return current_date
+
+def id_generator():
+    now = str(datetime.now())
+    rand_num = random.sample(range(100000, 999999), 1)
+    user_id = f"{now.split()[0]}-{rand_num[0]}"  # format -> user_ld = 2025-01-22-123456
+    return user_id

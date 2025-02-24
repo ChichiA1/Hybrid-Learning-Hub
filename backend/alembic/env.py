@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from alembic import context
 from app.db.base import Base
 from app.orm_model.user import User
+from app.orm_model.book import Book
 from app.core.config import DATABASE_URL
 # from dotenv import load_dotenv
 # import os
