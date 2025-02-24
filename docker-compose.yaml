@@ -1,0 +1,30 @@
+version: "3.8"  # Use a suitable version of Docker Compose
+
+services:
+  fastapi-server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/:/backend/
+    entrypoint: []
+    command: uvicorn app.api.server:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres_db
+    ports:
+      - 8000:8000
+
+  postgres_db:
+    image: postgres:14  # Image for PostgreSQL with PostGIS
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port (5432) to the host machine
+    env_file:
+      - backend/.env  # Load environment variables from a .env file
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent data storage to avoid data loss on container restart
+    restart: always  # Automatically restart the container unless explicitly stopped
+
+volumes:
+  postgres_data:  # Persistent volume for storing database data
