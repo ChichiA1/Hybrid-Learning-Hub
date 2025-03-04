@@ -2,6 +2,7 @@ version: "3.8"  # Use a suitable version of Docker Compose
 
 services:
   fastapi-server:
+    image: hybrid-learning-hub-docker-app-server:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
