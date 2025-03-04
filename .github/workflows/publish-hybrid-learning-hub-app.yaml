@@ -10,8 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and Push the Image
         run: |
-          ls -al
           cd backend
-          docker login --username ${{ vars.username }} --password ${{secrets.hybrid_learning-hub_app }} ghcr.io
+          docker login --username ${{ vars.username }} --password ${{secrets.hybrid_learning_hub_app }} ghcr.io
           docker build . --tag ghcr.io/${{ vars.username }}/hybrid-learning-hub-docker-app-server:latest
           docker push ghcr.io/${{ vars.username }}/hybrid-learning-hub-docker-app-server:latest
