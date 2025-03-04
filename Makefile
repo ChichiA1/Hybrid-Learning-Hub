@@ -1,5 +1,5 @@
 # Define the message variable for commit messages
-message ?= Minor code changes
+message ?= latest update
 
 # Build the Docker containers without starting them
 build:
