@@ -6,7 +6,9 @@ from app.models.users import UserPasswordUpdate
 # deprecated="auto" setting ensures that deprecated hashes are automatically updated
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 class AuthService:
+
     def create_salt_and_hashed_password(self, *, plaintext_password: str) -> UserPasswordUpdate:
         salt = self.generate_salt()
         hashed_password = self.hash_password(password=plaintext_password, salt=salt)
@@ -19,7 +21,6 @@ class AuthService:
 
     def hash_password(self, *, password: str, salt: str) -> str:
         return pwd_context.hash(password + salt)
-
 
 
 auth_service = AuthService()

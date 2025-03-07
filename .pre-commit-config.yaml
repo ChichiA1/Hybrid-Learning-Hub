@@ -3,14 +3,14 @@ repos:
     hooks:
       - id: flake8
         name: flake8
-        entry: flake8  # This uses the installed version of flake8
-        language: system  # Uses the system-installed Python environment
-        files: \.(py)$  # Limit to Python files
+        entry: flake8
+        language: system
+        files: \.(py)$
 
-  - repo: local
-    hooks:
-      - id: mypy
-        name: mypy
-        entry: mypy  # This uses the installed version of mypy
-        language: system  # Uses the system-installed Python environment
-        files: \.(py)$  # Limit to Python files
+      - id: mypy-docker
+        name: mypy (in Docker)
+        # Start a new container and run mypy on the code inside
+        entry: docker run --rm hybrid-learning-hub-docker-app-server:latest mypy /backend/
+        language: system
+        files: \.(py)$
+        pass_filenames: false

@@ -5,4 +5,3 @@ app = FastAPI()
 
 app = FastAPI(title=config.PROJECT_NAME, version=config.VERSION)
 app.include_router(api_router, prefix="/api")
-

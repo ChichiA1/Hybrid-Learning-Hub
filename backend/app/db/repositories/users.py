@@ -11,12 +11,15 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
 class UsersRepository:
+
     """"
     All database actions associated with the Users resource
     """
+
     # The register_user function to create a new user and commit to the DB
-    async def register_user(db: AsyncSession, user: UserModel):
+    async def register_user(self, db: AsyncSession, user: UserModel):
         try:
             # Get hashed password and salt
             salt_and_hashed_password = auth_service.create_salt_and_hashed_password(
@@ -47,3 +50,6 @@ class UsersRepository:
             # Handle any SQLAlchemy-related or unexpected errors
             logger.error(f"Error creating user in the database: {e}")
             raise  # Re-raise the exception so the caller knows something went wrong
+
+
+user_repo = UsersRepository()

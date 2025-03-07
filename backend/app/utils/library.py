@@ -1,14 +1,14 @@
 from typing import Optional
 from datetime import datetime, timedelta
 import random
-from app.models import (admins, books, users)
-from pprint import pprint
+from app.models import (books, users)
 from app.utils.util import renewal
 from app.helper.db_connection import RDSOperations
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 class Library:
     def __init__(self):
@@ -50,7 +50,9 @@ class Library:
                 # Check if the book is reserved by others
                 if book.reserved_by:
                     print(
-                        f"Sorry, '{book.title}' is currently unavailable. It's reserved by {', '.join(book.reserved_by)}.")
+                        f"Sorry, '{book.title}' is currently unavailable. "
+                        f"It's reserved by {', '.join(book.reserved_by)}."
+                    )
                 else:
                     print(f"Sorry, '{book.title}' is currently unavailable.")
         else:
@@ -86,10 +88,10 @@ class Library:
     def register_user(self):
         now = str(datetime.now())
         rand_num = random.sample(range(100000, 999999), 1)
-        user_id = f"{now.split()[0]}-{rand_num[0]}" # format -> user_ld = 2025-01-22-123456
+        user_id = f"{now.split()[0]}-{rand_num[0]}"  # format -> user_ld = 2025-01-22-123456
 
         first_name = input("Enter first name: ")
-        last_name =  input("Enter last name: ")
+        last_name = input("Enter last name: ")
         email = input("Enter email address: ")
         username = input("Enter your username: ")
         password = input("Enter your password: ")
@@ -129,7 +131,7 @@ class Library:
                 user_type=user_type,
                 dob=dob,
                 # membership_status=membership_status
-                user_expiration = renewal()
+                user_expiration=renewal()
             )
             self.users[user_id] = user.dict()
             # initialise RDSOperations
@@ -186,17 +188,17 @@ class Library:
             print("Invalid email / username or password")
             return None
 
-
-    def add_admin(self, admin_id: str, full_name: str, email: str, phone: str, password: str):
-        if admin_id in self.admins:
-            print(f"Admin ID '{admin_id}' already exists.")
-        else:
-            try:
-                admin = admins.AdminModel(admin_id=admin_id, full_name=full_name, email=email, phone=phone, password=password)
-                self.admins[admin_id] = admin
-                print(f"Admin '{full_name}' with ID '{admin_id}' added successfully!")
-            except ValueError as e:
-                print(f"Error adding admin: {e}")
+    # def add_admin(self, admin_id: str, full_name: str, email: str, phone: str, password: str):
+    #     if admin_id in self.admins:
+    #         print(f"Admin ID '{admin_id}' already exists.")
+    #     else:
+    #         try:
+    #             admin = admins.AdminModel(admin_id=admin_id, full_name=full_name, email=email,
+    #                                       phone=phone, password=password)
+    #             self.admins[admin_id] = admin
+    #             print(f"Admin '{full_name}' with ID '{admin_id}' added successfully!")
+    #         except ValueError as e:
+    #             print(f"Error adding admin: {e}")
 
 
 if __name__ == '__main__':

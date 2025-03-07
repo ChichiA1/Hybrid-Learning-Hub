@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class Book:
     def __init__(self, title, author, book_id, quantity, category):
         now = datetime.now()
@@ -13,7 +14,8 @@ class Book:
         self.reviews = []
 
     def __str__(self):
-        return f"ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Category: {self.category}, Quantity: {self.quantity}, Status: {self.status}"
+        return (f"ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Category: {self.category}, "
+                f"Quantity: {self.quantity}, Status: {self.status}")
 
     def add_review(self, review):
         self.reviews.append(review)

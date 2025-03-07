@@ -1,14 +1,15 @@
-from sqlalchemy import Column, String, Integer, DateTime, Enum
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Integer, Enum
+from sqlalchemy.orm import Mapped, mapped_column
 from enum import Enum as PyEnum
-from sqlalchemy.dialects.postgresql import ARRAY  # Still using ARRAY for list types (e.g., reviews)
 from app.db.base import Base
+
 
 # Enum for status (same as Pydantic Enum)
 class BookStatusEnum(PyEnum):
     available = "available"
     checked_out = "checked-out"
     reserved = "reserved"
+
 
 class Book(Base):
     __tablename__ = 'books'
@@ -19,7 +20,8 @@ class Book(Base):
     author = Column(String)
     quantity = Column(Integer)
     category = Column(String)
-    status = Column(Enum(BookStatusEnum), default=BookStatusEnum.available)  # Using SQLAlchemy's native Enum
+    # Using SQLAlchemy's native Enum
+    status: Mapped[BookStatusEnum] = mapped_column(Enum(BookStatusEnum), default=BookStatusEnum.available)
 
     def to_dict(self):
         return {

@@ -1,11 +1,11 @@
 from logging.config import fileConfig
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
-from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from alembic import context
 from app.db.base import Base
-from app.orm_model.user import User
-from app.orm_model.book import Book
+# from app.orm_model.user import User
+# from app.orm_model.book import Book
 from app.core.config import DATABASE_URL
 # from dotenv import load_dotenv
 # import os
@@ -22,6 +22,7 @@ target_metadata = Base.metadata
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is not set in the environment variables.")
 
+
 def run_migrations_offline():
     try:
         """Run migrations in 'offline' mode."""
@@ -37,6 +38,7 @@ def run_migrations_offline():
     except Exception as e:
         print(f"An error occurred during offline migration: {e}")
 
+
 async def run_migrations_online():
     try:
         """Run migrations in 'online' mode."""
@@ -50,6 +52,7 @@ async def run_migrations_online():
     except Exception as e:
         print(f"An error occurred during online migration: {e}")
 
+
 def do_run_migrations(connection: Connection):
     context.configure(
         connection=connection,
@@ -58,6 +61,7 @@ def do_run_migrations(connection: Connection):
 
     with context.begin_transaction():
         context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()

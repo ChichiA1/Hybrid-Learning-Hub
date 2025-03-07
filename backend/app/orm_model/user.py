@@ -1,5 +1,6 @@
-from sqlalchemy import Column, String, Integer, Enum, DateTime
-from datetime import datetime
+from sqlalchemy import Column, String, Enum, DateTime
+from sqlalchemy.orm import Mapped, mapped_column
+# from datetime import datetime
 from enum import Enum as PyEnum
 from app.db.base import Base
 
@@ -9,11 +10,13 @@ class Membership_status(PyEnum):
     active = "active"
     inactive = "inactive"
 
+
 class User_type(PyEnum):
     student = "student"
     faculty = "faculty"
     staff = "staff"
     parent = "parent"
+
 
 # SQLAlchemy ORM model for User
 class User(Base):
@@ -29,9 +32,12 @@ class User(Base):
     salt = Column(String, nullable=False)  # Store salt for password hashing
     phone = Column(String)  # Store phone number as a string in the format XXX-XXX-XXXX
     address = Column(String)
-    user_type = Column(Enum(User_type), default=User_type.student, nullable=False)  # Enum for user type with default
+    # Enum for user type with default
+    user_type: Mapped[User_type] = mapped_column(Enum(User_type), default=User_type.student, nullable=False)
     dob = Column(DateTime, nullable=False)
-    membership_status = Column(Enum(Membership_status), default=Membership_status.active, nullable=False)  # Enum for membership status
+    # Enum for membership status
+    membership_status: Mapped[Membership_status] = mapped_column(Enum(Membership_status),
+                                                                default=Membership_status.active, nullable=False)
     renewal = Column(DateTime, nullable=False)  # DateTime for renewal
 
     def to_dict(self):

@@ -1,13 +1,13 @@
-from datetime import datetime
-from pydantic import BaseModel, validator
-from typing import List, Optional
+from pydantic import BaseModel
 from enum import Enum
+
 
 # Define the Enum for status
 class BookStatus(str, Enum):
     available = "available"
     checked_out = "checked-out"
     reserved = "reserved"
+
 
 # Pydantic Model for Book
 class BookModel(BaseModel):
@@ -35,9 +35,9 @@ class BookModel(BaseModel):
         return f"ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Category: {self.category}, " \
                f"Quantity: {self.quantity}, Status: {self.status}"
 
-    def add_review(self, review: str):
-        self.reviews.append(review)
-
-    def reserve(self, user_id: str):
-        if user_id not in self.reserved_by:
-            self.reserved_by.append(user_id)
+    # def add_review(self, review: str):
+    #     self.reviews.append(review)
+    #
+    # def reserve(self, user_id: str):
+    #     if user_id not in self.reserved_by:
+    #         self.reserved_by.append(user_id)
