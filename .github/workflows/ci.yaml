@@ -1,0 +1,31 @@
+name: Continuous Integration
+
+on:
+  push
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  tests:
+    name: Run Test
+    uses: ./.github/workflows/run-tests.yaml
+    secrets: inherit
+
+  terraform_validate:
+    name: Terraform Validate
+    needs: tests
+    strategy:
+      matrix:
+        environment:
+          - account: ${{ vars.AWS_ACCOUNT_NUMBER_DEVL }}
+            name: devl
+          - account: ${{ vars.AWS_ACCOUNT_NUMBER_PROD }}
+            name: prod
+    uses: ./.github/workflows/terraform.yaml
+    secrets: inherit
+    with:
+      account_number: ${{ matrix.environment.account }}
+      environment: ${{ matrix.environment.name }}
+      deploy: false

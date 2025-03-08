@@ -1,0 +1,64 @@
+name: Build Docker Image and Push it to AWS ECR
+
+on:
+  workflow_call:
+    outputs:
+      docker_tag:
+        description: "Docker Tag"
+        value: ${{ jobs.build_test_docker.outputs.docker_tag }}
+      name:
+        value: OMOLEWA
+
+jobs:
+  build_test_docker:
+    name: Build Docker
+    runs-on: ubuntu-latest
+    outputs:
+      docker_tag: ${{ steps.encode_tag.outputs.out }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set Up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - uses: docker/metadata-action@v5
+        id: docker_meta
+        with:
+          images: |
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/ihc-repo
+          tags: type=sha,format=long
+
+      - uses: docker/build-push-action@v6
+        name: Build and Push Docker Image
+        with:
+          context: .
+          push: true
+          target: build
+          file: ops/Dockerfile
+          platforms: linux/amd64
+          provenance: false
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Encode Docker Tag Securely
+        uses: cloudposse/github-action-secret-outputs@main
+        id: encode_tag
+        with:
+          secret: ${{ secrets.PASSWORD }}
+          op: encode
+          in: ${{ steps.docker_meta.outputs.tags }}
