@@ -2,10 +2,10 @@ name: Run Test
 
 on:
   workflow_call:
-#    outputs:
-#      docker_tag:
-#        description: "Docker Image Tag"
-#        value: ${{ jobs.build_docker.outputs.docker_tag }}
+    outputs:
+      docker_tag:
+        description: "Docker Image Tag"
+        value: ${{ jobs.build_docker.outputs.docker_tag }}
 
 jobs:
   build_docker:
@@ -26,29 +26,29 @@ jobs:
         run:
           working-directory: /backend
 
-      services:
-        postgres:
-          image: postgis/postgis:14
-          options: >-
-            --health-cmd "pg_isready"
-            --health-interval 1s
-            --health-timeout 3s
-            --health-retries 30
-          env:
-            POSTGRES_PASSWORD: postgres
+    services:
+      postgres:
+        image: postgis/postgis:14
+        options: >-
+          --health-cmd "pg_isready"
+          --health-interval 1s
+          --health-timeout 3s
+          --health-retries 30
+        env:
+          POSTGRES_PASSWORD: postgres
 
 #        redis:
 #          image: redis:5.0-buster
 
-      steps:
-#        - name: OPenAPI
-#          run: openapi-spec-validator-docs/openapi/xxx.yaml
-#          name: Parliament
-#          if: ${{ success() || failure() }}
-#          run: parliament --directory /xxx/xxx/ --config .parlia-config.yaml
-        - name: Pytest
-          run: >
-            dotenv --file ops/test-variables.env
-            run /bin/bash -c
-            "pytest tests/functional --cov xxx --cov-report term-missing --durations=28"
+    steps:
+#      - name: OPenAPI
+#        run: openapi-spec-validator-docs/openapi/xxx.yaml
+#        name: Parliament
+#        if: ${{ success() || failure() }}
+#        run: parliament --directory /xxx/xxx/ --config .parlia-config.yaml
+      - name: Pytest
+        run: >
+          dotenv --file ops/test-variables.env
+          run /bin/bash -c
+          "pytest tests/functional --cov xxx --cov-report term-missing --durations=28"
         
