@@ -1,7 +1,8 @@
 name: Docker CI for Hybrid Learning Hub App
 on:
-  push:
-    branches: [ dev ]
+  workflow_call
+#  push:
+#    branches: [ dev ]
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest

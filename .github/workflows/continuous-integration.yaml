@@ -3,10 +3,6 @@ name: Continuous Integration
 on:
   push
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   tests:
     name: Run Test
