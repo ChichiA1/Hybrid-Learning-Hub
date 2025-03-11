@@ -46,7 +46,7 @@ jobs:
           context: ./backend
           push: true
 #          target: build
-          file: Dockerfile
+          file: backend/Dockerfile
           platforms: linux/amd64
           provenance: false
           tags: ${{ steps.docker_meta.outputs.tags }}
