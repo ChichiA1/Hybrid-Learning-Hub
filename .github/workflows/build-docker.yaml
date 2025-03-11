@@ -12,7 +12,7 @@ jobs:
     name: Build Docker
     runs-on: ubuntu-latest
     outputs:
-      docker_tag: ${{ steps.encode_tag.outputs.out }}
+      docker_tag: ${{ steps.docker_meta.outputs.tags }}
 
     steps:
       - uses: actions/checkout@v4

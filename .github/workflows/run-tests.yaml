@@ -1,11 +1,11 @@
 name: Run Test
 
 on:
-  workflow_call:
-    outputs:
-      docker_tag:
-        description: "Docker Image Tag"
-        value: ${{ jobs.build_docker.outputs.docker_tag }}
+  workflow_call
+#    outputs:
+#      docker_tag:
+#        description: "Docker Image Tag"
+#        value: ${{ jobs.build_docker.outputs.docker_tag }}
 
 jobs:
   build_docker:
