@@ -12,19 +12,19 @@ jobs:
     name: Build Docker Image for Tests
     uses: ./.github/workflows/build-docker.yaml
     secrets: inherit
-#
-#  run_tests:
-#    name: Run Tests
-#    runs-on: ubuntu-latest
-#    needs: build_docker
-#    container:
-#      image: ${{ needs.build_docker.outputs.docker_tag }}
-#      credentials:
-#        username: ${{ vars.username }}
-#        password: ${{ secrets.hybrid_learning_hub_app }}
-#      defaults:
-#        run:
-#          working-directory: /backend
+
+  run_tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: build_docker
+    container:
+      image: ${{ needs.build_docker.outputs.docker_tag }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.HYBRID_LEARNING_HUB_REGISTRY_PAT }}
+      defaults:
+        run:
+          working-directory: /backend
 #
 #    services:
 #      postgres:
