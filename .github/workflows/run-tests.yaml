@@ -51,7 +51,7 @@ jobs:
         run: |
           echo "Setting up database connection for tests"
           # Add any necessary environment variables for test database connection
-          export DATABASE_URL=postgresql://postgres:postgres@postgres:5432/test_db
+          export DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
 
       - name: Run Pytest
