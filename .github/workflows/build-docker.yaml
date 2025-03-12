@@ -28,8 +28,8 @@ jobs:
 
         with:
           registry: ghcr.io
-          username: ${{ vars.username }}
-          password: ${{ secrets.hybrid_learning_hub_app }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker Metadata
         uses: docker/metadata-action@v5
