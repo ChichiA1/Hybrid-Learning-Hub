@@ -37,6 +37,12 @@ jobs:
     steps:
       - name: Run Pytest
         run: |
+          # Print the current directory
           pwd
+          # List all files in the current directory
           ls -al
+          # List all files in the parent directory to see if backend exists one level above
+          ls -al ..
+          # List all files recursively to see the full structure
+          ls -alR
           pytest -v tests/ --cov=app/ --cov-report term-missing --durations=28
