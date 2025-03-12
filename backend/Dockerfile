@@ -4,8 +4,8 @@ FROM python:3.11-slim-buster AS base
 # create working directory in docker
 WORKDIR /backend
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONBUFFERED=1
 
 # install system dependencies
 RUN apt-get update \
