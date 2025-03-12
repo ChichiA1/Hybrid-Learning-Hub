@@ -35,8 +35,45 @@ jobs:
           --health-retries 30
         env:
           POSTGRES_PASSWORD: postgres
-
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+          -
     steps:
+      - name: Container Information & Run Pytest
+        run: |
+          echo "Running in image: ${{ needs.build_docker.outputs.docker_tag }}"
+          echo "Working directory: $(pwd)"
+          ls -la
+
+      - name: Configure Database Connection
+        run: |
+          echo "Setting up database connection for tests"
+          # Add any necessary environment variables for test database connection
+          export DATABASE_URL=postgresql://postgres:postgres@postgres:5432/test_db
+          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+
       - name: Run Pytest
-        run: |      
-          pytest -v /backend/tests --cov=app/ --cov-report term-missing --durations=28
+        run: |
+          echo "Running tests with coverage"
+          pytest -v /backend/tests --cov=app/ --cov-report term-missing --cov-report xml --durations=28
+
+      - name: Upload Coverage Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-coverage-report
+          path: /backend/coverage.xml
+          if-no-files-found: warn
+
+      - name: Debug on Failure
+        if: failure()
+        run: |
+          echo "Tests failed, collecting debug information"
+          echo "===== Environment Variables ====="
+          env | sort
+          echo "===== Application Directory Content ====="
+          ls -la /backend
+          echo "===== Log Files ====="
+          find /backend -name "*.log" -exec cat {} \; || echo "No log files found"
