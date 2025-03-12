@@ -39,7 +39,7 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-          -
+
     steps:
       - name: Container Information & Run Pytest
         run: |
