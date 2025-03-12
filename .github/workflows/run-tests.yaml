@@ -37,12 +37,19 @@ jobs:
     steps:
       - name: Run Pytest
         run: |
-          # Print the current directory
-          pwd
-          # List all files in the current directory
-          ls -al
-          # List all files in the parent directory to see if backend exists one level above
-          ls -al ..
-          # List all files recursively to see the full structure
-          ls -alR
+          echo "Running in container: ${{ needs.build_docker.outputs.docker_tag }}"
+          echo "===== Directory Structure ====="
+          find / -type d -maxdepth 3 -not -path "*/proc/*" -not -path "*/sys/*" -not -path "*/dev/*" | sort
+          
+          echo "===== Application Directory Content ====="
+          # Adjust these paths based on where your application is installed in the container
+          ls -la /app/ || echo "No /app directory"
+          ls -la /usr/src/ || echo "No /usr/src directory"
+          
+          echo "===== Environment Variables ====="
+          env | sort
+          
+          echo "===== Container OS Info ====="
+          cat /etc/os-release
+          
           pytest -v tests/ --cov=app/ --cov-report term-missing --durations=28
