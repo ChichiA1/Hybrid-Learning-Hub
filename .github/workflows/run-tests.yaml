@@ -35,6 +35,6 @@ jobs:
           POSTGRES_PASSWORD: postgres
 
     steps:
-      - name: Pytest
+      - name: Run Pytest
         run: |
           pytest tests/functional --cov=app/ --cov-report term-missing --durations=28
