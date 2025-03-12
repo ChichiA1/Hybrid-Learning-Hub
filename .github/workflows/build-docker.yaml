@@ -53,8 +53,3 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Inspect Docker Image Contents
-        run: |
-          docker pull ${{ steps.docker_meta.outputs.tags }}
-          docker run --rm ${{ steps.docker_meta.outputs.tags }} find / -type d -not -path "*/proc/*" -not -path "*/sys/*" -not -path "*/dev/*" | sort
