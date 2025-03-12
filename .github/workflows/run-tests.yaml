@@ -37,4 +37,4 @@ jobs:
     steps:
       - name: Run Pytest
         run: |
-          pytest -v backend/tests/ --cov=app/ --cov-report term-missing --durations=28
+          pytest -v tests/ --cov=app/ --cov-report term-missing --durations=28
