@@ -22,7 +22,9 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.HYBRID_LEARNING_HUB_REGISTRY_PAT }}
-
+    defaults:
+      run:
+        working-directory: /backend
     services:
       postgres:
         image: postgres:14
@@ -52,4 +54,4 @@ jobs:
           echo "===== Container OS Info ====="
           cat /etc/os-release
           
-          pytest -v tests/ --cov=app/ --cov-report term-missing --durations=28
+          pytest -v /tests/ --cov=app/ --cov-report term-missing --durations=28
