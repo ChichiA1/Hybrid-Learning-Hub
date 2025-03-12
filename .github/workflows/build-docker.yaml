@@ -46,7 +46,6 @@ jobs:
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
-        id: docker_build
         with:
           context: ./backend
           push: true
@@ -58,6 +57,3 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Image Digest
-        run: echo "Image digest: ${{ steps.docker_build.outputs.digest }}"
