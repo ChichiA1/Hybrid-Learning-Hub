@@ -34,18 +34,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
 
-#        redis:
-#          image: redis:5.0-buster
-
     steps:
-#      - name: OPenAPI
-#        run: openapi-spec-validator-docs/openapi/xxx.yaml
-#        name: Parliament
-#        if: ${{ success() || failure() }}
-#        run: parliament --directory /xxx/xxx/ --config .parlia-config.yaml
       - name: Pytest
-        run: >
-#          dotenv --file ops/test-variables.env
-          run /bin/bash -c
-          "pytest tests/functional --cov xxx --cov-report term-missing --durations=28"
-
+        run: |
+          pytest tests/functional --cov xxx --cov-report term-missing --durations=28
