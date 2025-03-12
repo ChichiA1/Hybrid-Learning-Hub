@@ -52,6 +52,7 @@ coverage.xml
 cover/
 
 # here temporarily
+backend/tests
 test.py
 
 # Translations
