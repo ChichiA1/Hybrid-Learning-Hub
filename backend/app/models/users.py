@@ -3,7 +3,7 @@ from pydantic import BaseModel, EmailStr, constr, validator
 from typing import Optional
 from enum import Enum
 from string import punctuation
-from app.models.token import AccessToken
+# from app.models.token import AccessToken
 
 
 class User_type(str, Enum):
@@ -80,9 +80,16 @@ class UserPasswordUpdate(BaseModel):
     Users can create or change their password
     """
     password: constr(min_length=8, max_length=100)  # type: ignore
-    salt: str
 
 
+# UserPublic will inherit from UserModel but make password optional and exclude it in response serialization
 class UserPublic(UserModel):
     user_id: str
-    access_token: Optional[AccessToken] = None
+    access_token: Optional[str] = None
+
+    # Override the password field to make it optional
+    # password: Optional[str] = None
+
+    class Config:
+        # Exclude `password` when serializing to response
+        fields = {'password': {'exclude': True}}

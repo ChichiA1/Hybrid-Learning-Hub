@@ -1,4 +1,4 @@
-version: "3.8"  # Use a suitable version of Docker Compose
+version: "3.9"
 
 services:
   fastapi-server:

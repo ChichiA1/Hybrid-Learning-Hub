@@ -29,7 +29,6 @@ class User(Base):
     username = Column(String, unique=True, nullable=False, index=True)
     email = Column(String, unique=True, nullable=False, index=True)
     password = Column(String, nullable=False)  # Store hashed password here
-    salt = Column(String, nullable=False)  # Store salt for password hashing
     phone = Column(String)  # Store phone number as a string in the format XXX-XXX-XXXX
     address = Column(String)
     # Enum for user type with default
