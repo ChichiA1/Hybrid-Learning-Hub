@@ -57,7 +57,8 @@ tests/
 - Tests that validate the complete registration flow from API to repository
 
 ## Running Tests
-
+Build and run docker, then go into docker fastapi app by executing this command "docker-compose exec -it fastapi-server 
+bash" before running the pytests
 To run all tests:
 ```bash
 pytest
@@ -65,8 +66,8 @@ pytest
 
 To run specific test files:
 ```bash
-pytest tests/test_auth_service.py
-pytest tests/test_user_model.py
+pytest tests/unit_test/test_users/test_auth_service.py
+pytest tests/unit_test/test_users/test_user_model.py
 ```
 
 To run tests with verbose output:
