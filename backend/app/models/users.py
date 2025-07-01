@@ -83,13 +83,14 @@ class UserPasswordUpdate(BaseModel):
 
 
 # UserPublic will inherit from UserModel but make password optional and exclude it in response serialization
-class UserPublic(UserModel):
+class UserPublic(BaseModel):
     user_id: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    username: str
+    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # type: ignore
+    address: str
+    user_type: User_type
+    dob: datetime
     access_token: Optional[str] = None
-
-    # Override the password field to make it optional
-    # password: Optional[str] = None
-
-    class Config:
-        # Exclude `password` when serializing to response
-        fields = {'password': {'exclude': True}}

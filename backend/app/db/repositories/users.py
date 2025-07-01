@@ -37,7 +37,7 @@ class UsersRepository:
     async def register_user(self, db: AsyncSession, user: UserModel) -> UserPublic:
         try:
             if await self.check_if_user_exist(db, user.email, user.username):
-                print(self.check_if_user_exist(db, user.email, user.username))
+                print(await self.check_if_user_exist(db, user.email, user.username))
                 raise HTTPException(
                     status_code=HTTP_400_BAD_REQUEST,
                     detail="email or username is already taken. Register with another one."
