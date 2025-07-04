@@ -19,4 +19,4 @@ async def register_user(user: UserModel, db: AsyncSession = Depends(get_db)) -> 
     - **UserPublic** Mandatory response output to client
     """
 
-    return await user_repo.register_user(db=db, user=user)  # type: ignore
+    return await user_repo.register_user(db=db, user=user)
