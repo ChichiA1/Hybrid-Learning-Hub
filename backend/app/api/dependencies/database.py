@@ -11,5 +11,4 @@ async def add_update_table(db, data):
     await db.commit()  # Commit the transaction
     # Refresh the object to get the latest state from the database
     await db.refresh(data)
-    print("data:" * 10, data)
     return data

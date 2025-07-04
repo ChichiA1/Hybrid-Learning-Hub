@@ -52,10 +52,6 @@ coverage.xml
 cover/
 
 # here temporarily
-backend/tests/unit_test/__init__.py
-backend/tests/deployment_test
-backend/tests/unit_test/test_database.py
-backend/tests/functional_test
 test.py
 
 # Translations
