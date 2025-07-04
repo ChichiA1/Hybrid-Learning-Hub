@@ -20,7 +20,7 @@ class UserModel(BaseModel):
     email: EmailStr
     username: str
     password: str
-    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # type: ignore
+    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')
     address: str
     user_type: User_type
     dob: datetime
@@ -79,7 +79,7 @@ class UserPasswordUpdate(BaseModel):
     """
     Users can create or change their password
     """
-    password: constr(min_length=8, max_length=100)  # type: ignore
+    password: constr(min_length=8, max_length=100)
 
 
 # UserPublic will inherit from UserModel but make password optional and exclude it in response serialization

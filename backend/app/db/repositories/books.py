@@ -54,7 +54,7 @@ class BookRepository:
             else:
                 book_in_bd.quantity = book_in_bd.quantity + book.quantity
                 book_in_bd = await add_update_table(db, book_in_bd)
-                return book_in_bd.to_dict()  # type: ignore
+                return book_in_bd.to_dict()
         except (SQLAlchemyError, Exception) as e:
             # Handle any SQLAlchemy-related or unexpected errors
             logger.error(f"Error retrieving book quantity in the database: {e}")

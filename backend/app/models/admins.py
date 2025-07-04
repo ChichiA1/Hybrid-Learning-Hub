@@ -6,7 +6,7 @@ class AdminModel(BaseModel):
     admin_id: str
     full_name: str
     email: EmailStr
-    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # type: ignore
+    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')
     password: str  # Store the password securely (in real apps use hashed passwords)
 
     class Config:

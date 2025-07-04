@@ -13,4 +13,4 @@ SessionLocal = sessionmaker(
     bind=engine,                # The async engine (AsyncEngine) for binding
     class_=AsyncSession,         # Explicitly specify AsyncSession as the session class
     expire_on_commit=False      # Don't expire objects after committing
-)  # type: ignore  # <-- This is where you suppress the Mypy error
+)
