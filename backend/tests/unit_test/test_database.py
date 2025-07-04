@@ -42,7 +42,7 @@ def test_database_engine_creation():
         mock_create_engine.assert_called_once_with(
             'postgresql+asyncpg://postgres:postgres@postgres_db:5432/postgres',
             future=True,
-            echo=False  # Updated to match actual behavior
+            echo=False
         )
 
 
