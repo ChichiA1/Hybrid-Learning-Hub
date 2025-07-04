@@ -10,4 +10,4 @@ router = APIRouter()
 
 @router.post("/add-book/", response_model=BookModel, name="books:add-book", status_code=HTTP_201_CREATED)
 async def add_book(book: BookModel, db: AsyncSession = Depends(get_db)) -> BookModel:
-    return await book_repo.add_book(db=db, book=book)  # type: ignore
+    return await book_repo.add_book(db=db, book=book)
