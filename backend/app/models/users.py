@@ -89,7 +89,7 @@ class UserPublic(BaseModel):
     last_name: str
     email: EmailStr
     username: str
-    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')  # type: ignore
+    phone: constr(regex=r'^\d{3}-\d{3}-\d{4}$')
     address: str
     user_type: User_type
     dob: datetime

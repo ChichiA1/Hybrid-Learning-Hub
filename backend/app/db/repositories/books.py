@@ -52,7 +52,7 @@ class BookRepository:
                 db_book = await add_update_table(db, db_book)
                 return db_book.to_dict()
             else:
-                book_in_bd.quantity = book_in_bd.quantity + book.quantity  # type: ignore
+                book_in_bd.quantity = book_in_bd.quantity + book.quantity
                 book_in_bd = await add_update_table(db, book_in_bd)
                 return book_in_bd.to_dict()  # type: ignore
         except (SQLAlchemyError, Exception) as e:
