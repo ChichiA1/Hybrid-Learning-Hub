@@ -66,7 +66,6 @@ def test_session_maker_creation():
 
 
 def test_database_connection_api(test_client):
-    """Test database connection via API endpoint (POST)"""
     unique_suffix = str(uuid.uuid4())[:8]
     test_user = {
         "first_name": "Test",
@@ -80,7 +79,11 @@ def test_database_connection_api(test_client):
         "dob": "1990-01-01T00:00:00"
     }
 
-    response = test_client.post("/api/users/registration/", json=test_user)
+    # Patch the function that queries for existing users (return None to simulate no conflict)
+    with patch("app.db.repositories.users.user_repo.check_if_user_exist", return_value=None), \
+         patch("app.db.repositories.users.add_update_table", side_effect=lambda db, user: user):
+
+        response = test_client.post("/api/users/registration/", json=test_user)
 
     assert response.status_code == 201  # Expect 201 Created
 
