@@ -7,7 +7,8 @@ from fastapi.testclient import TestClient
 from app.models.users import UserModel, User_type
 from app.services.authentication import AuthService
 from app.db.repositories.users import UsersRepository
-from app.api.server import app
+from app.models.books import BookModel, BookStatus
+from app.api.server import app as fastapi_app
 
 
 @pytest.fixture
@@ -47,7 +48,7 @@ def user_repo():
 @pytest.fixture
 def client():
     """Create a FastAPI test client"""
-    return TestClient(app)
+    return TestClient(fastapi_app)
 
 
 @pytest.fixture
@@ -67,3 +68,27 @@ def mock_user_dict():
         "membership_status": "active",
         "renewal": (datetime.now() + timedelta(days=365)).isoformat()
     }
+
+
+@pytest.fixture
+def test_book():
+    return BookModel(
+        title="The Art of Testing",
+        author="Jane Doe",
+        book_id="book-1234",
+        quantity=10,
+        category="Technology",
+        status=BookStatus.available
+    )
+
+
+# @pytest.fixture
+# def app():
+#     """Fixture to provide the FastAPI app."""
+#     return fastapi_app
+#
+#
+# @pytest.fixture
+# def client(app):
+#     from starlette.testclient import TestClient
+#     return TestClient(app)

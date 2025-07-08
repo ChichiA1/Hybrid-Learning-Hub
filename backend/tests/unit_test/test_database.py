@@ -1,6 +1,7 @@
 import pytest
 import uuid
-from unittest.mock import patch, AsyncMock, ANY, MagicMock
+import importlib
+from unittest.mock import patch, AsyncMock, MagicMock
 from app.api.dependencies.database import get_db, add_update_table
 from fastapi.testclient import TestClient
 from app.api.server import app
@@ -47,20 +48,19 @@ def test_database_engine_creation():
 
 
 def test_session_maker_creation():
-    """Test session maker creation"""
+    """Test async session maker creation"""
     with patch("sqlalchemy.ext.asyncio.create_async_engine") as mock_create_engine, \
-         patch("sqlalchemy.orm.sessionmaker") as mock_sessionmaker:
+         patch("sqlalchemy.ext.asyncio.async_sessionmaker") as mock_sessionmaker:
 
         mock_engine = MagicMock()
         mock_create_engine.return_value = mock_engine
 
-        import importlib
         import app.db.session
         importlib.reload(app.db.session)
 
         mock_sessionmaker.assert_called_once_with(
             bind=mock_engine,
-            class_=ANY,
+            class_=AsyncSession,
             expire_on_commit=False
         )
 

@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends
-from starlette.status import HTTP_201_CREATED
+from fastapi import APIRouter, Depends, HTTPException
+from starlette.status import HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.dependencies.database import get_db
 from app.models.users import UserModel, UserPublic
@@ -18,5 +18,7 @@ async def register_user(user: UserModel, db: AsyncSession = Depends(get_db)) -> 
     - **db** Database async session throught dependency injection
     - **UserPublic** Mandatory response output to client
     """
-
-    return await user_repo.register_user(db=db, user=user)
+    try:
+        return await user_repo.register_user(db=db, user=user)
+    except Exception as e:
+        raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
